@@ -1,81 +1,65 @@
 package com.azamora.almundotest;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.azamora.almundotest.entities.Call;
 import com.azamora.almundotest.entities.Employee;
-import com.azamora.almundotest.exception.NoEmployeeAvailableException;
+import com.azamora.almundotest.services.EmployeeQueueService;
 
 
-public class Dispatcher extends Thread {
+@Component
+public class Dispatcher  {
 
 	private Logger logger = LoggerFactory.getLogger(Dispatcher.class);
-	
-	private PriorityBlockingQueue<Employee> employees;
-	private Call calls;
+
 	private Semaphore semaphore;
-	private CyclicBarrier standByMessage;
+	private List<Call> callList;
+	
+	
+	@Autowired
+	EmployeeQueueService employeeQueueService;
 
-
-
-
-	public Dispatcher(PriorityBlockingQueue<Employee> employees,Semaphore semaphore,CyclicBarrier standByMessage,Call calls) {
-		super();
-		this.employees = employees;
-		this.calls = calls;
-		this.semaphore = semaphore;
-		this.standByMessage = standByMessage;
+	public Dispatcher setEmployees(PriorityBlockingQueue<Employee> employees) {
+		this.employeeQueueService.setEmployees(employees);
+		return this;
+	}
+	public Dispatcher setCalls(List<Call> callList) {
+		this.callList = callList;
+		return this;
+	}
+	
+	public Dispatcher buildSemaphore() {
+		this.semaphore = new Semaphore(this.employeeQueueService.size());
+		return this;
 	}
 
 
-	@Override
-	public void run() {
-		dispatchCall(calls);
-		
+
+	public void dispatchCalls() {
+		callList.forEach(call-> {
+			this.dispatchCall(call);
+		});
 	}
 
 
 	public void dispatchCall(Call call) {
 
-			try {
-				 
-				logger.info(" is waiting to speak to the operator...");
-	 
-	            this.semaphore.acquire();
-	            
-	            Employee selected = getAvailableEmployee();
-	 
-	            logger.info(selected.getType()+ " is getting the connection to the operator...");
-	                       
-	            Thread.sleep(call.getDuration());
-	             
-	            logger.info(selected.getType()+ "´s phone call with the operator ending.");
-	            
-	            this.employees.offer(selected);
-	            
-	            this.semaphore.release();
-	             
-	            logger.info("Available operators="+ semaphore.availablePermits());
-	            
-	        	
-	             
-	        } catch (InterruptedException   e) {
-	        	logger.error("Error", e);
-	        } 
+		try {
+			Employee selected = employeeQueueService.getAvailableEmployee();
+			call.startCall(this.semaphore,selected,employeeQueueService);
+		
+		} catch (InterruptedException  e) {
+			logger.error("Error", e);
 
-	}
+		}
 
-	
-
-	private  Employee getAvailableEmployee() throws InterruptedException {
-		return employees.take();
-	
 	}
 
 

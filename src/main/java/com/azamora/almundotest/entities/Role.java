@@ -2,7 +2,7 @@ package com.azamora.almundotest.entities;
 
 
 
-public enum Type {
+public enum Role {
 	
 	OPERATOR(1),
     SUPERVISOR(2),
@@ -10,7 +10,7 @@ public enum Type {
    
     private final int value;
     
-    private Type(int value) {
+    private Role(int value) {
         this.value = value;
     }
     public int getValue() {

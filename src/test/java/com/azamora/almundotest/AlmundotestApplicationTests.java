@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.azamora.almundotest.entities.Call;
 import com.azamora.almundotest.entities.Employee;
-import com.azamora.almundotest.entities.Type;
+import com.azamora.almundotest.entities.Role;
 import com.azamora.almundotest.utils.StandBy;
 
 @RunWith(SpringRunner.class)
@@ -26,12 +26,12 @@ public class AlmundotestApplicationTests {
 	public void contextLoads() {
 		PriorityBlockingQueue<Employee> employees = new PriorityBlockingQueue<>();
 		
-		employees.add(new Employee(Type.DIRECTOR));
-		employees.add(new Employee(Type.SUPERVISOR));
-		employees.add(new Employee(Type.SUPERVISOR));
-		employees.add(new Employee(Type.OPERATOR));
-		employees.add(new Employee(Type.OPERATOR));
-		employees.add(new Employee(Type.OPERATOR));
+		employees.add(new Employee(Role.DIRECTOR));
+		employees.add(new Employee(Role.SUPERVISOR));
+		employees.add(new Employee(Role.SUPERVISOR));
+		employees.add(new Employee(Role.OPERATOR));
+		employees.add(new Employee(Role.OPERATOR));
+		employees.add(new Employee(Role.OPERATOR));
 		
 		 Semaphore semaphore =new Semaphore(employees.size());;
 		 CyclicBarrier standByMessage = new CyclicBarrier(employees.size(), new StandBy());

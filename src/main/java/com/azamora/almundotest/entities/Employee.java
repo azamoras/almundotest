@@ -1,36 +1,26 @@
 package com.azamora.almundotest.entities;
 
 import java.util.Objects;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Semaphore;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 
-public class Employee implements Comparable<Employee> {
+public class Employee  implements Comparable<Employee>{
 
-	private Logger logger = LoggerFactory.getLogger(Employee.class);
-	
-	private Type type;
+	private Role role;
 	private String name;
-	private Call call;
-	private Semaphore sem; 
-	private CyclicBarrier barrier;
 
-	public Employee(Type type) {
+
+	public Employee(Role role) {
 		super();
-		this.type = type;
+		this.role = role;
 	}
 
-	public Type getType() {
-		return type;
+	public Role getRole() {
+		return role;
 	}
 	
-	public void setType(Type type) {
-		this.type = type;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public String getEmployeeName() {
@@ -58,20 +48,25 @@ public class Employee implements Comparable<Employee> {
 	public String toString() {
 		return "Employee{" +
 				"name='" + name + '\'' +
-				", type=" + type +'}';
+				", role=" + role +'}';
 	}
 
 	@Override
 	public int compareTo(Employee employee) {
-		if(this.getType().getValue() > employee.getType().getValue()) {
+		if(this.getRole().getValue() > employee.getRole().getValue()) {
             return 1;
-        } else if (this.getType().getValue() < employee.getType().getValue()) {
+        } else if (this.getRole().getValue() < employee.getRole().getValue()) {
             return -1;
         } else {
             return 0;
         }
 	
 	}
+	
+
+
+
+
 
 	
 	
