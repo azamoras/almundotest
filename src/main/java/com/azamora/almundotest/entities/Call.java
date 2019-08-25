@@ -44,11 +44,11 @@ public class Call extends Thread  {
 			 
 			logger.info(" is waiting to speak to the operator...");
 			this.sem.acquire();
-            logger.info(this.employee.getRole()+ " is getting the connection to the operator...");      
+            logger.info(this.employee+ " is getting the connection to the operator...");      
             
             Thread.sleep(getDuration());
              
-            logger.info(this.employee.getRole()+ "´s phone call with the operator ending.");
+            logger.info(this.employee+ "´s phone call with the operator ending.");
             
             employeeQueueService.offer(employee);
             
@@ -59,5 +59,11 @@ public class Call extends Thread  {
         } catch (InterruptedException   e) {
         	logger.error("Error", e);
         } 
+	}
+	
+	@Override
+	public String toString() {
+		return "Call{" +
+				"duration='" + getDuration() + "\'}";
 	}
 }

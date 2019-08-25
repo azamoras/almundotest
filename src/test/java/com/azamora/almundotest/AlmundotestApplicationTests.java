@@ -1,68 +1,90 @@
 package com.azamora.almundotest;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.Semaphore;
 
+import org.awaitility.Duration;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.azamora.almundotest.entities.Call;
 import com.azamora.almundotest.entities.Employee;
 import com.azamora.almundotest.entities.Role;
-import com.azamora.almundotest.utils.StandBy;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AlmundotestApplicationTests {
 
+	@Autowired
+	Dispatcher dispatcher;
+
+	PriorityBlockingQueue<Employee> employees;
+	@Before
+	public void setUp() {
+		employees = new PriorityBlockingQueue<>();
+		employees.add(new Employee(Role.DIRECTOR,"Laura"));
+		employees.add(new Employee(Role.SUPERVISOR,"Paola"));
+		employees.add(new Employee(Role.SUPERVISOR,"Alfonso"));
+		employees.add(new Employee(Role.OPERATOR,"Anna"));
+		employees.add(new Employee(Role.OPERATOR,"Pietro"));
+		employees.add(new Employee(Role.OPERATOR,"Daniele"));
+	}
+
 	@Test
-	public void contextLoads() {
-		PriorityBlockingQueue<Employee> employees = new PriorityBlockingQueue<>();
+	public void givenDispatcher_whenTheCallsAreTen_thenAvailableSlots6() throws InterruptedException {
+	
+		List<Call> calls = getCall(10);
+
+		dispatcher.setEmployees(employees).setCalls(calls).buildSemaphore().dispatchCalls();
+
+		await().atMost(Duration.ONE_MINUTE).until(() -> dispatcher.availableSlots() == 6);
+
+		assertEquals(6, dispatcher.availableSlots());
+	}
+	
+	@Test
+	public void givenDispatcher_whenTheCallsAreLessThanTen_thenAvailableSlots3() throws InterruptedException {
+	
+		List<Call> calls = getCall(3);
+
+		dispatcher.setEmployees(employees).setCalls(calls).buildSemaphore().dispatchCalls();
+
+		await().atMost(Duration.ONE_MINUTE).until(() -> dispatcher.availableSlots() == 3);
+
+		assertEquals(3, dispatcher.availableSlots());
+	}
+	
+	
+	@Test
+	public void givenDispatcher_whenTheCallsAreMoreThanTen_thenAvailableSlots6() throws InterruptedException {
+	
+		List<Call> calls = getCall(20);
+
+		dispatcher.setEmployees(employees).setCalls(calls).buildSemaphore().dispatchCalls();
+
+		await().atMost(Duration.ONE_MINUTE).until(() -> dispatcher.availableSlots() == 6);
+
+		assertEquals(6, dispatcher.availableSlots());
+	}
+	
+	
+	
+	private List<Call> getCall(int numberOfCalls) {
+		List<Call> calls = new ArrayList<>(numberOfCalls);
+		for (int i = 0; i < numberOfCalls; i++) {
+			calls.add(new Call());
+		}
+		return calls;
 		
-		employees.add(new Employee(Role.DIRECTOR));
-		employees.add(new Employee(Role.SUPERVISOR));
-		employees.add(new Employee(Role.SUPERVISOR));
-		employees.add(new Employee(Role.OPERATOR));
-		employees.add(new Employee(Role.OPERATOR));
-		employees.add(new Employee(Role.OPERATOR));
-		
-		 Semaphore semaphore =new Semaphore(employees.size());;
-		 CyclicBarrier standByMessage = new CyclicBarrier(employees.size(), new StandBy());
-		List<Call> calls = new LinkedList<>();
-		calls.add(new Call());
-		calls.add(new Call());
-		calls.add(new Call());
-		calls.add(new Call());
-		calls.add(new Call());
-		calls.add(new Call());
-		
-		Dispatcher dispatcher = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher.start();
-		Dispatcher dispatcher2 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher2.start();
-		Dispatcher dispatcher3 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher3.start();
-		Dispatcher dispatcher4 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher4.start();
-		Dispatcher dispatcher5 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher5.start();
-		Dispatcher dispatcher6 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher6.start();
-		Dispatcher dispatcher7 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher7.start();
-		Dispatcher dispatcher8 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher8.start();
-		Dispatcher dispatcher9 = new Dispatcher(employees,semaphore,standByMessage, new Call());
-		dispatcher9.start();
-		
-		//assertEquals(0, dispatcher.availableSlots());
+
 	}
 
 }

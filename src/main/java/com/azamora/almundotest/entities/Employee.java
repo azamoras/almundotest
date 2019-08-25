@@ -10,9 +10,10 @@ public class Employee  implements Comparable<Employee>{
 	private String name;
 
 
-	public Employee(Role role) {
+	public Employee(Role role,String name) {
 		super();
 		this.role = role;
+		this.name = name;
 	}
 
 	public Role getRole() {
