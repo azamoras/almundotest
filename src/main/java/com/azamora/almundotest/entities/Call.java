@@ -2,35 +2,31 @@ package com.azamora.almundotest.entities;
 
 
 import java.util.Random;
-import java.util.concurrent.Semaphore;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.azamora.almundotest.services.EmployeeQueueService;
+import java.util.UUID;
 
 
 
-public class Call extends Thread  {
+public class Call  {
 	private static Random r = new Random();
 	private static long max = 10000;
 	private static long min = 5000;
 	
-	private Logger logger = LoggerFactory.getLogger(Employee.class);
-	private Semaphore sem; 
+	private String identifier;
 
-	private Employee employee;
-	
-	private EmployeeQueueService employeeQueueService;
 
 	
-	public void startCall(Semaphore sem,Employee employee,EmployeeQueueService employeeQueueService) {
-		this.employee = employee;
-		this.employeeQueueService = employeeQueueService;
-		this.sem = sem;
-		this.start();
-
+    public Call() {
+    	identifier = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+	
+	public String getIdentifier() {
+		return identifier;
 	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	
 
 	public long getDuration() {
 		return r.longs(min, (max + 1)).limit(1).findFirst().getAsLong();
@@ -38,32 +34,7 @@ public class Call extends Thread  {
 	
 	
 	@Override
-	public void run() {
-
-		try {
-			 
-			logger.info(" is waiting to speak to the operator...");
-			this.sem.acquire();
-            logger.info(this.employee+ " is getting the connection to the operator...");      
-            
-            Thread.sleep(getDuration());
-             
-            logger.info(this.employee+ "´s phone call with the operator ending.");
-            
-            employeeQueueService.offer(employee);
-            
-            this.sem.release();
-            
-            logger.info("Available operators="+ sem.availablePermits());
-             
-        } catch (InterruptedException   e) {
-        	logger.error("Error", e);
-        } 
-	}
-	
-	@Override
 	public String toString() {
-		return "Call{" +
-				"duration='" + getDuration() + "\'}";
+		return "Call{" + "identifier='" + getIdentifier() + "\'}";
 	}
 }

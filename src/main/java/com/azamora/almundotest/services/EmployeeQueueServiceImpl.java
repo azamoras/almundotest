@@ -35,4 +35,10 @@ public class EmployeeQueueServiceImpl implements EmployeeQueueService {
 		return this.employees.size();
 	}
 
+	@Override
+	public PriorityBlockingQueue<Employee> getEmployees() {
+		
+		return this.employees;
+	}
+
 }
