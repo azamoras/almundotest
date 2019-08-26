@@ -34,9 +34,7 @@ import com.azamora.almundotest.entities.Role;
 public class AlmundotestApplicationTests {
 
 
-	/**
-	 * Semáforo para manejar la cantidad de llamadas a atender según la cantidad de empleados.
-	 */
+	
 	@Autowired
 	Dispatcher dispatcher;
 
