@@ -17,3 +17,26 @@ Existe un call center donde hay 3 tipos de empleados: operador, supervisor y dir
   * Dar alguna solución sobre qué pasa con una llamada cuando entran más de 10 llamadas concurrentes.
   * Agregar los tests unitarios que se crean convenientes.
   * Agregar documentación de código.
+
+
+### Solución 
+
+##### Dar alguna solución sobre qué pasa con una llamada cuando no hay ningún empleado libre.
+##### Dar alguna solución sobre qué pasa con una llamada cuando entran más de 10 llamadas concurrentes.
+
+
+Se trabajó con un semáforo para dar solución a la problemática. Esto implica que no importa la cantidad de llamadas que entren todas serán atendida a medida que se vayan liberando empleados de las llamadas anteriores.
+
+#### Documentación 
+
+##### JavaDoc
+
+* [JavaDoc] (https://github.com/azamoras/almundotest/tree/develop/docs/apidocs)
+
+##### UML 
+
+* [Diagrama de secuencia](https://github.com/azamoras/almundotest/blob/develop/docs/diagrama%20de%20secuencia.png)
+* [Diagrama de clases](https://github.com/azamoras/almundotest/blob/develop/docs/Diagrama%20de%20clases.png)
+
+
+  
