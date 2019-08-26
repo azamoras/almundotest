@@ -57,7 +57,7 @@ public class Dispatcher  {
 	public void dispatchCalls() {
 		logger.info("Empleados listos para tomar llamadas {}", this.semaphore.availablePermits());
 		
-		callList.forEach(call-> this.dispatchCall(call));
+		callList.forEach(this::dispatchCall);
 	}
 
 
