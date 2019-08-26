@@ -55,13 +55,13 @@ public class Dispatcher  {
 
 
 	public void dispatchCalls() {
-		logger.info(String.format("Empleados listos para tomar llamadas %1$s", this.semaphore.availablePermits()));
+		logger.info("Empleados listos para tomar llamadas {}", this.semaphore.availablePermits());
 		
-		callList.forEach(call-> {this.dispatchCall(call);});
+		callList.forEach(call-> this.dispatchCall(call));
 	}
 
 
-	public void dispatchCall(Call call) {
+	public  void dispatchCall(Call call) {
 
 		try {
 			Employee selected = employeeQueueService.getAvailableEmployee();

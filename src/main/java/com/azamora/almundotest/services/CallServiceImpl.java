@@ -28,21 +28,21 @@ public class CallServiceImpl implements CallService  {
 
 		try {
 			 
-			logger.info(String.format("La llamada con identificador '%1$s' esta esperando a ser atendida...", call.getIdentifier()));
+			logger.info("La llamada con identificador '{}' esta esperando a ser atendida...", call.getIdentifier());
 			
 			sem.acquire();
 			
-            logger.info(String.format("La llamada con identificador '%1$s' esta siendo atendida por el empleado '%2$s'.",   call.getIdentifier(), employee));      
+            logger.info("La llamada con identificador '{}' esta siendo atendida por el empleado '{}'.",   call.getIdentifier(), employee);      
             
             Thread.sleep( call.getDuration());
              
-            logger.info(String.format("La llamada con identificador '%1$s' ha terminado.",  call.getIdentifier()));
+            logger.info("La llamada con identificador '{}' ha terminado.",  call.getIdentifier());
             
             employeeQueueService.offer(employee);
             
             sem.release();
             
-            logger.info(String.format("Empleados libres %1$s", sem.availablePermits()));
+            logger.info("Empleados libres {}", sem.availablePermits());
         } catch (InterruptedException   e) {
         	logger.error("Error", e);
         	Thread.currentThread().interrupt();
