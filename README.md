@@ -31,7 +31,7 @@ Se trabajó con un semáforo para dar solución a la problemática. Esto implica
 
 ##### JavaDoc
 
-* [JavaDoc] (https://github.com/azamoras/almundotest/tree/develop/docs/apidocs)
+* [JavaDoc](https://github.com/azamoras/almundotest/tree/develop/docs/apidocs)
 
 ##### UML 
 
