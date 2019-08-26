@@ -1,6 +1,12 @@
 package com.azamora.almundotest.entities;
 
 
+/**
+ * Clase Role.
+ *
+ * @author adrian
+ *
+ */
 
 public enum Role {
 	

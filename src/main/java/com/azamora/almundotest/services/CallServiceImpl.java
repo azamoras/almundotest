@@ -11,16 +11,34 @@ import org.springframework.stereotype.Service;
 import com.azamora.almundotest.entities.Call;
 import com.azamora.almundotest.entities.Employee;
 
+
+/**
+ * Clase servicio para la realización de las llamadas.
+ *
+ * @author adrian
+ *
+ */
 @Service
 public class CallServiceImpl implements CallService  {
-	
+
+
+	/**
+	 *  Servicio para manejar la cola de empleados.
+	 */
 	@Autowired
 	private EmployeeQueueService employeeQueueService;
 	
 
 	private Logger logger = LoggerFactory.getLogger(CallServiceImpl.class);
-	
-	
+
+
+	/**
+	 * <p>Permite especificar las llamadas.
+	 * </p>
+	 * @param sem semáforo para actualizar los recursos usados.
+	 * @param employee empleado a atender la llamada.
+	 * @param call llamada a ser atendida.
+	 */
 	@Async 
 	@Override
 	public void startCall(Semaphore sem,Employee employee,Call call) {
