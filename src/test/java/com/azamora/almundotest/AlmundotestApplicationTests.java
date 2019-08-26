@@ -19,15 +19,37 @@ import com.azamora.almundotest.entities.Call;
 import com.azamora.almundotest.entities.Employee;
 import com.azamora.almundotest.entities.Role;
 
+
+/**
+ * Clase para las pruebas unitarias.
+ *
+ * @author adrian
+ *
+ */
+
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AlmundotestApplicationTests {
 
+
+	/**
+	 * Semáforo para manejar la cantidad de llamadas a atender según la cantidad de empleados.
+	 */
 	@Autowired
 	Dispatcher dispatcher;
 
+	/**
+	 * Colección de empleados
+	 */
 	PriorityBlockingQueue<Employee> employees;
-	
+
+
+	/**
+	 * <p>Se crea listado de empleados para las pruebas.
+	 * </p>
+	 */
 	@Before
 	public void setUp() {
 		employees = new PriorityBlockingQueue<>();
@@ -39,6 +61,11 @@ public class AlmundotestApplicationTests {
 		employees.add(new Employee(Role.OPERATOR,"Daniele"));
 	}
 
+	/**
+	 * <p>Prueba Dispatcher con 10 llamadas y verifica que al final queden todos los empleados disponibles nuevamente.
+	 * </p>
+	 *
+	 */
 	@Test
 	public void givenDispatcher_whenTheCallsAreTen_thenAvailableSlots6() throws InterruptedException {
 	
@@ -50,7 +77,12 @@ public class AlmundotestApplicationTests {
 
 		assertEquals(6, dispatcher.availableSlots());
 	}
-	
+
+	/**
+	 * <p>Prueba Dispatcher con 3 llamadas y verifica que queden 3 empleados disponibles.
+	 * </p>
+	 *
+	 */
 	@Test
 	public void givenDispatcher_whenTheCallsAreLessThanTen_thenAvailableSlots3() throws InterruptedException {
 	
@@ -62,8 +94,12 @@ public class AlmundotestApplicationTests {
 
 		assertEquals(3, dispatcher.availableSlots());
 	}
-	
-	
+
+	/**
+	 * <p>Prueba Dispatcher con 20 llamadas y verifica que al final del proceso queden todos los empleados disponibles nuevamente.
+	 * </p>
+	 *
+	 */
 	@Test
 	public void givenDispatcher_whenTheCallsAreMoreThanTen_thenAvailableSlots6() throws InterruptedException {
 	
@@ -75,9 +111,14 @@ public class AlmundotestApplicationTests {
 
 		assertEquals(6, dispatcher.availableSlots());
 	}
-	
-	
-	
+
+
+	/**
+	 * <p>Crea objetos de tipo Call (LLamadas)
+	 * </p>
+	 *@param numberOfCalls cantidad de llamadas a generar.
+	 * @return listado de llamadas.
+	 */
 	private List<Call> getCall(int numberOfCalls) {
 		List<Call> calls = new ArrayList<>(numberOfCalls);
 		for (int i = 0; i < numberOfCalls; i++) {

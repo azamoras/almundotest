@@ -3,7 +3,12 @@ package com.azamora.almundotest.services;
 import java.util.concurrent.PriorityBlockingQueue;
 import com.azamora.almundotest.entities.Employee;
 
-
+/**
+ * Interfaz para servicios de empleados
+ *
+ * @author adrian
+ *
+ */
 public interface EmployeeQueueService {
 	 public abstract void setEmployees(PriorityBlockingQueue<Employee> employees);
 	 public abstract PriorityBlockingQueue<Employee> getEmployees();

@@ -2,7 +2,12 @@ package com.azamora.almundotest.entities;
 
 import java.util.Objects;
 
-
+/**
+ * Clase Empleado.
+ *
+ * @author adrian
+ *
+ */
 
 public class Employee  implements Comparable<Employee>{
 
@@ -52,6 +57,13 @@ public class Employee  implements Comparable<Employee>{
 				", role=" + role +'}';
 	}
 
+	/**
+	 * <p>Permite comparar un Empleado con otro
+	 * </p>
+	 *
+	 * @param employee a comparar.
+	 * @return devuelve 1 si es mayor, -1 si es menor o 0 si son iguales.
+	 */
 	@Override
 	public int compareTo(Employee employee) {
 		if(this.getRole().getValue() > employee.getRole().getValue()) {
