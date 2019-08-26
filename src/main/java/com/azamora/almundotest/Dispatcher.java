@@ -40,13 +40,13 @@ public class Dispatcher  {
 	 *  Servicio que maneja la cola de empleados.
 	 */
 	@Autowired
-	EmployeeQueueService employeeQueueService;
+	private EmployeeQueueService employeeQueueService;
 
 	/**
 	 *  Servicio que realiza la llamada.
 	 */
 	@Autowired
-	CallService callServices;
+	private CallService callServices;
 
 	/**
 	 * <p>Valida que no sean null o vacía los datos entrantes.

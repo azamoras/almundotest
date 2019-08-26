@@ -34,14 +34,14 @@ import com.azamora.almundotest.entities.Role;
 public class AlmundotestApplicationTests {
 
 
-	
+
 	@Autowired
-	Dispatcher dispatcher;
+	private Dispatcher dispatcher;
 
 	/**
 	 * Colección de empleados
 	 */
-	PriorityBlockingQueue<Employee> employees;
+	private PriorityBlockingQueue<Employee> employees;
 
 
 	/**
